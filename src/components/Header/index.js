@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './index.module.scss';
 
 class Header extends React.Component {
@@ -21,5 +22,9 @@ class Header extends React.Component {
     );
   }
 }
+
+Header.propTypes = {
+  diseases: PropTypes.array.isRequired,
+};
 
 export default Header;
