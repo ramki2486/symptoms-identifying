@@ -1,18 +1,46 @@
 .Main {
-    margin-top: 30px;
-    text-align: center;
-    background-color: azure;
-    width: 600px;
-    height: 750px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);
-    background-color: white;
-    border-radius: 0.25rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  text-align: center;
+  background-color: azure;
+  width: 600px;
+  height: 600px;
+  float: left;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  background-color: white;
+  border-radius: 0.25rem 0.25rem none none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 30%;
 }
-  
-  
-  
+
+.left {
+  float: left;
+  width: 455px;
+}
+
+.right {
+  top: 0;
+  float: right;
+  width: 455px;
+  margin-left: 8px;
+}
+
+.left h5,
+.right h5 {
+  display: inline-block;
+  margin-left: 6px;
+  margin-bottom: 8px;
+  padding: 6px 8px;
+  background-color: yellowgreen;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.left h5:hover,
+.right h5:hover {
+  background-color: mediumslateblue;
+  color: white;
+}

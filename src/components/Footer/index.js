@@ -5,9 +5,11 @@ class Footer extends React.Component {
   render() {
     return (
       <div className={styles.Footer}>
-        <h4>Kishore</h4>
+        <form className={styles.searchForm}>
+          <input type="text" id="search" placeholder="search for symptoms" />
+        </form>
       </div>
-    )
+    );
   }
 }
 

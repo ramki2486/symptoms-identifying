@@ -1,3 +1,48 @@
 .Header {
-    background-color: orange;
+  background-image: linear-gradient(
+    to right top,
+    #10b699,
+    #33c0a0,
+    #49cba6,
+    #5cd5ad,
+    #6de0b4
+  );
+  clip-path: polygon(
+    20% 0%,
+    80% 0%,
+    100% 0,
+    100% 73%,
+    56% 100%,
+    45% 100%,
+    0 74%,
+    0 0
+  );
+}
+
+.Header button {
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  border-radius: 46%;
+  padding: 22px 15px;
+  position: relative;
+  top: 16px;
+  left: 4px;
+  letter-spacing: 0.4px;
+  background-color: lightcyan;
+  cursor: pointer;
+}
+
+.symptoms h4 {
+  display: inline;
+  margin-right: 15px;
+}
+
+.symptoms h5 {
+  display: inline-block;
+  margin: 6px;
+  background-color: yellowgreen;
+  padding: 8px;
+  border-radius: 8px;
 }
