@@ -44,3 +44,37 @@
   background-color: mediumslateblue;
   color: white;
 }
+
+.Footer {
+  background-color: aquamarine;
+}
+
+.searchForm input {
+  width: 100%;
+  height: 30px;
+  padding-left: 8px;
+  border: none;
+  border-bottom: 1.5px solid mediumseagreen;
+  outline: none;
+  font-size: 16px;
+}
+
+.searchArea {
+  position: absolute;
+  left: 30%;
+  top: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 200;
+  background-color: white;
+  width: 600px;
+}
+
+.searchArea div {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.searchArea hr {
+  margin: 8px;
+}
