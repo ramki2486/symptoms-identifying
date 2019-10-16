@@ -1,32 +1,11 @@
 import React from 'react';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import styles from './index.module.scss';
 
 class Header extends React.Component {
 
-  state = {
-    loading: false
-  }
-
-  handleSubmit = async e => {
-    e.preventDefault();
-    const { diseases } = this.props;
-    if(diseases && diseases.length > 0) {
-      this.setState({ loading: true });
-      try {
-        const res = await axios.post('http://localhost:2018/symptoms-identify', { symptoms: JSON.stringify(diseases) });
-        if(res) this.setState({ loading: false })
-      } catch (error) {
-        console.log(error);
-        this.setState({ loading: false })
-      }
-    }
-  }
-
   render() {
-    const { diseases } = this.props;
-    const { loading } = this.state;
+    const { diseases, Submit, loading } = this.props;
 
     return (
       <>
@@ -40,7 +19,7 @@ class Header extends React.Component {
               ))}
             </div>
           )}
-          <button type="button" onClick={this.handleSubmit}>Submit</button>
+          <button type="button" onClick={Submit}>Submit</button>
         </div>
         {loading && (
           <div className={`${styles.loading} ${styles['style-2']}`}>
@@ -53,11 +32,14 @@ class Header extends React.Component {
 }
 
 Header.defaultProps = {
-  diseases: []
+  diseases: [],
+  loading: false
 }
 
 Header.propTypes = {
-  diseases: PropTypes.array
+  diseases: PropTypes.array,
+  Submit: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
 }
 
 export default Header;
