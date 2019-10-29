@@ -1,5 +1,7 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import axios from 'axios';
+import FlipMove from 'react-flip-move';
 import Header from '../Header';
 import styles from './index.module.scss';
 import symptoms from '../../data/symptoms';
@@ -8,17 +10,42 @@ class Main extends React.Component {
   state = {
     diseases: [],
     query: '',
-    isSubmit: false
+    isSubmit: false,
+    halfSymptoms: [],
+    nextHalfSymptoms: [],
   };
+
+  componentDidMount() {
+    const halfSymptoms = [...symptoms];
+    const nextHalfSymptoms = [...symptoms];
+    halfSymptoms.splice(0, Math.ceil(symptoms.length / 2));
+    nextHalfSymptoms.splice(Math.ceil(symptoms.length / 2));
+    this.intervel = setInterval(() => {
+      this.shuffle(halfSymptoms, 'halfSymptoms');
+      this.shuffle(nextHalfSymptoms, 'nextHalfSymptoms');
+    }, 2500);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervel);
+  }
 
   handleSave = disease => () => {
     const { isSubmit } = this.state;
-    if(isSubmit) {
-      this.setState({ diseases: [], isSubmit: false, response: {} })
+    if (isSubmit) {
+      this.setState({ diseases: [], isSubmit: false, response: {} });
     }
     this.setState(prevState => ({
       diseases: [...prevState.diseases, disease],
+      searchResults: [],
     }));
+  };
+
+  handleDelete = ele => () => {
+    const { diseases } = this.state;
+    this.setState({
+      diseases: diseases.filter(el => el !== ele),
+    });
   };
 
   handleChange = e => {
@@ -44,51 +71,80 @@ class Main extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     const { diseases } = this.state;
-    if(diseases.length > 0) {
+    if (diseases.length > 0) {
       this.setState({ loading: true });
-      axios.post('http://localhost:2018/symptoms-identify', { symptoms: JSON.stringify(diseases) })
+      axios
+        .post('http://localhost:2018/symptoms-identify', { symptoms: JSON.stringify(diseases) })
         .then(res => {
           console.log(res);
-          this.setState({ 
-            response: {...res.data}, 
+          this.setState({
+            response: { ...res.data },
             isSubmit: true,
-            loading: false
-          })
+            loading: false,
+          });
         })
-        .catch(err => this.setState({ errMessage: JSON.stringify(err), loading: false}));
+        .catch(err => this.setState({ errMessage: JSON.stringify(err), loading: false }));
     }
-  }
+  };
+
+  shuffle = (array, type) => {
+    array.sort(() => Math.random() - 0.5);
+    return this.setState({
+      [type]: array,
+    });
+  };
 
   render() {
-    const halfSymptoms = [...symptoms];
-    halfSymptoms.splice(0, Math.ceil(symptoms.length / 2));
-    const nextHalfSymptoms = [...symptoms];
-    nextHalfSymptoms.splice(Math.ceil(symptoms.length / 2));
-
-    const { diseases, query, searchResults, response, loading, errMessage } = this.state;
+    const {
+      diseases,
+      query,
+      searchResults,
+      response,
+      loading,
+      errMessage,
+      halfSymptoms,
+      nextHalfSymptoms,
+    } = this.state;
 
     return (
       <>
         <div className={styles.left}>
-          {halfSymptoms.map(ele => (
-            <h5 onClick={this.handleSave(ele)} role="presentation">
-              {ele}
-            </h5>
-          ))}
+          <FlipMove staggerDurationBy="30" duration={500}>
+            {halfSymptoms.map((ele, index) => (
+              <h5 onClick={this.handleSave(ele)} role="presentation" key={String(index)}>
+                {ele}
+              </h5>
+            ))}
+          </FlipMove>
         </div>
         <div className={styles.Main}>
-          <Header diseases={diseases} Submit={this.handleSubmit} loading={loading} />
+          <Header diseases={diseases} Submit={this.handleSubmit} loading={loading} handleDelete={this.handleDelete} />
           {errMessage && <p>{errMessage}</p>}
+          {!response && (
+            <div className={styles.result}>
+              <p>
+                <span>Disease: </span>
+                Lorem ipsum dolor sit amet, consectetur.
+              </p>
+              <p>
+                <span>Remedie:</span>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
+              </p>
+            </div>
+          )}
           {response && (
             <div className={styles.result}>
               <p>
-                <span>Disease: </span>{response.disease}
+                <span>Disease: </span>
+                {response.disease}
               </p>
               <p>
-                <span>Remedie:</span>{' '}
-                {response.remedy}
+                <span>Remedie:</span> {response.remedy}
               </p>
-            </div>)}
+            </div>
+          )}
           <div className={styles.Footer}>
             <form className={styles.searchForm}>
               <input
@@ -96,34 +152,32 @@ class Main extends React.Component {
                 id="search"
                 onChange={this.handleChange}
                 value={query}
-                placeholder="search for symptoms"
+                placeholder="Search for symptoms"
               />
             </form>
+            {searchResults && searchResults.length > 0 && (
+              <div className={styles.searchArea}>
+                {searchResults.map((ele, index) => (
+                  <>
+                    <div key={String(index)} onClick={this.handleSave(ele)} role="presentation">
+                      {ele}
+                    </div>
+                    <hr />
+                  </>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         <div className={styles.right}>
-          {nextHalfSymptoms.map(ele => (
-            <h5 onClick={this.handleSave(ele)} role="presentation">
-              {ele}
-            </h5>
-          ))}
-        </div>
-        {searchResults && searchResults.length > 0 && (
-          <div className={styles.searchArea}>
-            {searchResults.map((ele, index) => (
-              <>
-                <div
-                  key={String(index)}
-                  onClick={this.handleSave(ele)}
-                  role="presentation"
-                >
-                  {ele}
-                </div>
-                <hr />
-              </>
+          <FlipMove staggerDurationBy="30" duration={500}>
+            {nextHalfSymptoms.map((ele, index) => (
+              <h5 onClick={this.handleSave(ele)} role="presentation" key={String(index)}>
+                {ele}
+              </h5>
             ))}
-          </div>
-        )}
+          </FlipMove>
+        </div>
       </>
     );
   }

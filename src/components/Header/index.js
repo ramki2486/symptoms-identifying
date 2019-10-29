@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import styles from './index.module.scss';
 
 class Header extends React.Component {
-
   render() {
-    const { diseases, Submit, loading } = this.props;
+    const { diseases, Submit, loading, handleDelete } = this.props;
 
     return (
       <>
@@ -14,12 +13,16 @@ class Header extends React.Component {
           {diseases.length > 0 && (
             <div className={styles.symptoms}>
               <h4>Your Symptoms:</h4>
-              {diseases.map(ele => (
-                <h5>{ele}</h5>
+              {diseases.map((ele, index) => (
+                <h5 onClick={handleDelete(ele)} role="presentation" key={String(index)}>
+                  {ele}
+                </h5>
               ))}
             </div>
           )}
-          <button type="button" onClick={Submit}>Submit</button>
+          <button type="button" onClick={Submit}>
+            Submit
+          </button>
         </div>
         {loading && (
           <div className={`${styles.loading} ${styles['style-2']}`}>
@@ -27,19 +30,20 @@ class Header extends React.Component {
           </div>
         )}
       </>
-    )
+    );
   }
 }
 
 Header.defaultProps = {
   diseases: [],
-  loading: false
-}
+  loading: false,
+};
 
 Header.propTypes = {
   diseases: PropTypes.array,
   Submit: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-}
+  handleDelete: PropTypes.func.isRequired,
+};
 
 export default Header;

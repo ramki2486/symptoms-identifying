@@ -34,9 +34,15 @@
   cursor: pointer;
 }
 
+.Header h4 {
+  font-size: 20px;
+  letter-spacing: 0.5px;
+}
+
 .symptoms h4 {
   display: inline;
   margin-right: 15px;
+  font-size: 16px;
 }
 
 .symptoms h5 {
@@ -45,6 +51,9 @@
   background-color: yellowgreen;
   padding: 8px;
   border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 0.5px;
 }
 
 /* loading css */
