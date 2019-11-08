@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import React from 'react';
 import axios from 'axios';
-import FlipMove from 'react-flip-move';
 import Header from '../Header';
 import styles from './index.module.scss';
 import symptoms from '../../data/symptoms';
@@ -11,20 +10,7 @@ class Main extends React.Component {
     diseases: [],
     query: '',
     isSubmit: false,
-    halfSymptoms: [],
-    nextHalfSymptoms: [],
   };
-
-  componentDidMount() {
-    const halfSymptoms = [...symptoms];
-    const nextHalfSymptoms = [...symptoms];
-    halfSymptoms.splice(0, Math.ceil(symptoms.length / 2));
-    nextHalfSymptoms.splice(Math.ceil(symptoms.length / 2));
-    this.intervel = setInterval(() => {
-      this.shuffle(halfSymptoms, 'halfSymptoms');
-      this.shuffle(nextHalfSymptoms, 'nextHalfSymptoms');
-    }, 2500);
-  }
 
   componentWillUnmount() {
     clearInterval(this.intervel);
@@ -87,12 +73,12 @@ class Main extends React.Component {
     }
   };
 
-  shuffle = (array, type) => {
-    array.sort(() => Math.random() - 0.5);
-    return this.setState({
-      [type]: array,
-    });
-  };
+  // shuffle = (array, type) => {
+  //   array.sort(() => Math.random() - 0.5);
+  //   return this.setState({
+  //     [type]: array,
+  //   });
+  // };
 
   render() {
     const {
@@ -102,20 +88,21 @@ class Main extends React.Component {
       response,
       loading,
       errMessage,
-      halfSymptoms,
-      nextHalfSymptoms,
     } = this.state;
+
+    const halfSymptoms = [...symptoms];
+    const nextHalfSymptoms = [...symptoms];
+    halfSymptoms.splice(0, Math.ceil(symptoms.length / 2));
+    nextHalfSymptoms.splice(Math.ceil(symptoms.length / 2));
 
     return (
       <>
         <div className={styles.left}>
-          <FlipMove staggerDurationBy="30" duration={500}>
-            {halfSymptoms.map((ele, index) => (
-              <h5 onClick={this.handleSave(ele)} role="presentation" key={String(index)}>
-                {ele}
-              </h5>
-            ))}
-          </FlipMove>
+          {halfSymptoms.map((ele, index) => (
+            <h5 onClick={this.handleSave(ele)} role="presentation" key={String(index)}>
+              {ele}
+            </h5>
+          ))}
         </div>
         <div className={styles.Main}>
           <Header diseases={diseases} Submit={this.handleSubmit} loading={loading} handleDelete={this.handleDelete} />
@@ -170,13 +157,11 @@ class Main extends React.Component {
           </div>
         </div>
         <div className={styles.right}>
-          <FlipMove staggerDurationBy="30" duration={500}>
-            {nextHalfSymptoms.map((ele, index) => (
-              <h5 onClick={this.handleSave(ele)} role="presentation" key={String(index)}>
-                {ele}
-              </h5>
-            ))}
-          </FlipMove>
+          {nextHalfSymptoms.map((ele, index) => (
+            <h5 onClick={this.handleSave(ele)} role="presentation" key={String(index)}>
+              {ele}
+            </h5>
+          ))}
         </div>
       </>
     );

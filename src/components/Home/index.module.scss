@@ -1,0 +1,50 @@
+.loader {
+  border: 6px solid lightgray;
+  border-radius: 50%;
+  border-top: 6px solid grey;
+  width: 50px;
+  height: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.interact {
+  text-align: center;
+}
+
+.ask {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  h4:first-child {
+    margin-right: 10px;
+  }
+  h4 {
+    background-color: darkgrey;
+    padding: 5px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+}
