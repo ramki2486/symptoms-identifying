@@ -53,7 +53,7 @@ const Login = props => {
             }
             setStatus({ msg: 'Your Redirecting to Dashboard..', error: ''});
             // history.push('/user/dashboard');
-            handlelogin(true);
+            handlelogin(true, user[0].name);
           } else {
             setStatus({ msg: '', error: 'Password is wrong!'});
           }

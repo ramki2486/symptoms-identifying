@@ -33,10 +33,10 @@
   text-align: center;
 }
 
-.ask {
+.interact .ask {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-end;
 
   h4:first-child {
     margin-right: 10px;
@@ -47,4 +47,15 @@
     border-radius: 4px;
     cursor: pointer;
   }
+  h4:hover {
+    background-color: mediumaquamarine;
+  }
+}
+
+.med {
+  background-color: lightgrey;
+  width: 50%;
+  text-align: center;
+  border-radius: 4px;
+  margin-left: auto;
 }
