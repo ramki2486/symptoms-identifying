@@ -12,6 +12,7 @@ const Home = ({ history }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
+  const [message, setMessage] = useState('');
 
   const onActiveClick = () => setActiveLink(active => !active);
 
@@ -37,12 +38,14 @@ const Home = ({ history }) => {
         history.push('/user/dashboard');
       }, 200);
     } else if (ele === 'no') {
-      setLoading(true);
+      setMessage('Thank you. Have a nice day!');
+      setTimeout(() => setLoading(true), 1000);
       setTimeout(() => {
         localStorage.setItem('logout', 'true');
         setLoading(false);
         setIsLoggedIn(false);
-      }, 200);
+        setMessage('');
+      }, 2000);
     }
   };
 
@@ -64,6 +67,7 @@ const Home = ({ history }) => {
                   No
                 </h4>
               </div>
+              {message && <h4 className={styles.med}>{message}</h4>}
             </div>
           )}
         </>

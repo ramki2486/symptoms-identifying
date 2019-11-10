@@ -56,6 +56,24 @@
   letter-spacing: 0.5px;
 }
 
+.delete {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  top: -16px;
+  left: 10px;
+  color: red;
+  visibility: hidden;
+}
+
+.symptoms h5:hover {
+  background-color: yellow;
+}
+
+.symptoms h5:hover .delete {
+  visibility: visible;
+}
+
 .logout {
   float: right;
   margin-right: 10px;

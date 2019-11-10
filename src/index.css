@@ -3,7 +3,17 @@ body {
   font-family: 'Catamaran', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: whitesmoke;
+  /* background: whitesmoke; */
+  background-image: linear-gradient(
+    to right top,
+    #051937,
+    #002639,
+    #003032,
+    #22372d,
+    #393d31
+  );
+  background-repeat: no-repeat;
+  height: 800px;
 }
 
 * {
