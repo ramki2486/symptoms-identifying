@@ -34,11 +34,19 @@
   margin-left: 6px;
   margin-bottom: 8px;
   padding: 6px 8px;
-  background-color: yellowgreen;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
   letter-spacing: 0.4px;
+  background-image: linear-gradient(
+    to right top,
+    #a13d69,
+    #b84b54,
+    #c0643f,
+    #b98131,
+    #a69e36
+  );
+  color: white;
 }
 
 .left h5:hover,

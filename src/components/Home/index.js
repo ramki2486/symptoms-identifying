@@ -53,14 +53,14 @@ const Home = ({ history }) => {
           {loading && <div className={styles.loader}></div>}
           {!loading && (
             <div className={styles.interact}>
-              <h4 style={{ color: 'mediumseagreen' }}>{`Hi ${name}`}</h4>
+              <h4 className={styles.name}>{`Hi ${name}`}</h4>
               <h4 style={{ textAlign: 'right' }}>How can i help you ?</h4>
               <h4 className={styles.med}>Do you need any medication?</h4>
               <div className={styles.ask}>
                 <h4 onClick={handleClick('yes')} role="presentation">
                   Yes
                 </h4>
-                <h4 onClick={handleClick('yes')} role="presentation">
+                <h4 onClick={handleClick('no')} role="presentation">
                   No
                 </h4>
               </div>
