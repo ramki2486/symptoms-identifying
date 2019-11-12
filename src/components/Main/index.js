@@ -32,6 +32,8 @@ class Main extends React.Component {
     const { diseases } = this.state;
     this.setState({
       diseases: diseases.filter(el => el !== ele),
+      resStat: null,
+      response: {}
     });
   };
 
