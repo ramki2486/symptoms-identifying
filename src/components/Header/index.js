@@ -21,7 +21,7 @@ class Header extends React.Component {
           <h6 className={styles.logout} role="presentation" onClick={this.handleLogout}>
             Logout
           </h6>
-          <h4>Symtoms Identifying App</h4>
+          <h4 style={{ marginLeft: '60px' }}>Disease Prediction</h4>
           {diseases.length > 0 && (
             <div className={styles.symptoms}>
               <h4>Your Symptoms:</h4>

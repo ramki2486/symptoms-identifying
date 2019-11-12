@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+/* eslint-disable */
 import React from 'react';
 import axios from 'axios';
 import Header from '../Header';
@@ -10,6 +10,7 @@ class Main extends React.Component {
     diseases: [],
     query: '',
     isSubmit: false,
+    resStat: null,
   };
 
   componentWillUnmount() {
@@ -58,7 +59,7 @@ class Main extends React.Component {
     e.preventDefault();
     const { diseases } = this.state;
     if (diseases.length > 0) {
-      this.setState({ loading: true });
+      this.setState({ loading: true, resStat: null });
       axios
         .post('http://localhost:2018/symptoms-identify', { symptoms: JSON.stringify(diseases) })
         .then(res => {
@@ -73,6 +74,12 @@ class Main extends React.Component {
     }
   };
 
+  hanldeClick = param => () => {
+    this.setState({
+      resStat: param,
+    });
+  };
+
   // shuffle = (array, type) => {
   //   array.sort(() => Math.random() - 0.5);
   //   return this.setState({
@@ -81,14 +88,7 @@ class Main extends React.Component {
   // };
 
   render() {
-    const {
-      diseases,
-      query,
-      searchResults,
-      response,
-      loading,
-      errMessage,
-    } = this.state;
+    const { diseases, query, searchResults, response, loading, errMessage, resStat } = this.state;
 
     const halfSymptoms = [...symptoms];
     const nextHalfSymptoms = [...symptoms];
@@ -130,6 +130,18 @@ class Main extends React.Component {
               <p>
                 <span>Remedie:</span> {response.remedy}
               </p>
+              {resStat === 'yes' ? (
+                <h4 className={styles.good}>Thank You.</h4>
+              ) : resStat === 'no' ? (
+                <h4 className={styles.bad}>"Okay. Will improve our results.Thank you"</h4>
+              ) : (
+                <div className={styles.resStat}>
+                  <h4>are you satisfied with the result?</h4>
+                  <h4>
+                    <span onClick={this.hanldeClick('yes')}>Yes</span> <span onClick={this.hanldeClick('no')}>No</span>
+                  </h4>
+                </div>
+              )}
             </div>
           )}
           <div className={styles.Footer}>

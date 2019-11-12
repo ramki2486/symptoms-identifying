@@ -17,6 +17,8 @@
   overflow: hidden;
   position: fixed;
   top: 25px;
+  max-height: 700px;
+  overflow: scroll;
   left: calc(100% - 70%);
   padding: 6px;
 }
@@ -108,4 +110,27 @@
 
 .searchArea hr {
   margin: 8px;
+}
+
+.resStat {
+  background-color: aquamarine;
+  h4 span {
+    background-color: chartreuse;
+    padding: 0px 20px;
+  }
+  h4 span:hover {
+    background-color: moccasin;
+  }
+}
+
+.good {
+  background-color: #d4edda;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.bad {
+  background-color: #f8d7da;
+  padding: 8px;
+  border-radius: 4px;
 }

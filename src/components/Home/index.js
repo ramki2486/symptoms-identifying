@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
@@ -12,7 +13,8 @@ const Home = ({ history }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState([]);
+  const [query, setQuery] = useState('');
 
   const onActiveClick = () => setActiveLink(active => !active);
 
@@ -36,9 +38,8 @@ const Home = ({ history }) => {
         setLoading(false);
         setIsLoggedIn(false);
         history.push('/user/dashboard');
-      }, 200);
+      }, 1000);
     } else if (ele === 'no') {
-      setMessage('Thank you. Have a nice day!');
       setTimeout(() => setLoading(true), 1000);
       setTimeout(() => {
         localStorage.setItem('logout', 'true');
@@ -49,6 +50,21 @@ const Home = ({ history }) => {
     }
   };
 
+  const handleChange = e => {
+    const { value } = e.target;
+    setQuery(value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    setMessage([...message, query]);
+    setQuery('');
+  };
+
+  var patt = new RegExp(/(i|need|medication|yes)/gi);
+
+  const WrongMessage = message.length > 0 && patt.test(message[message.length - 1]);
+
   return (
     <StyledHome>
       {isLoggedIn && (
@@ -58,18 +74,35 @@ const Home = ({ history }) => {
             <div className={styles.interact}>
               <h4 className={styles.name}>{`Hi ${name}`}</h4>
               <h4 style={{ textAlign: 'right' }}>How can i help you ?</h4>
-              <h4 className={styles.med}>Do you need any medication?</h4>
-              <div className={styles.ask}>
-                <h4 onClick={handleClick('yes')} role="presentation">
-                  Yes
-                </h4>
-                <h4 onClick={handleClick('no')} role="presentation">
-                  No
-                </h4>
-              </div>
-              {message && <h4 className={styles.med}>{message}</h4>}
+              {message.length > 0 &&
+                message.map(ele => (
+                  <>
+                    <h4 className={styles.med}>{ele}</h4>
+                    {message.length > 0 && !WrongMessage ? (
+                      <h4 className={styles.med}>Sorry. I couldn't get You.</h4>
+                    ) : (
+                      <h4 className={styles.med}>Oh! Do you need medication?</h4>
+                    )}
+                  </>
+                ))}
+              {message.length > 0 && message[message.length - 1] === 'yes' ? (
+                <>
+                  <h4 className={styles.med}>Okay.</h4>
+                  {handleClick('yes')()}
+                </>
+              ) : (
+                message[message.length - 1] === 'no' && (
+                  <>
+                    <h4 className={styles.med}>Oh! Oops. Thank you. Have a nice day!</h4>
+                    {handleClick('no')()}
+                  </>
+                )
+              )}
             </div>
           )}
+          <form className={styles.searchForm} onSubmit={handleSubmit}>
+            <input type="text" id="search" onChange={handleChange} value={query} placeholder="How can i help you?" />
+          </form>
         </>
       )}
       {!isLoggedIn && (
@@ -83,6 +116,9 @@ const Home = ({ history }) => {
             </Link>
           </div>
           {!activeLink ? <Login handlelogin={handlelogin} /> : <Register />}
+          <p className={styles.discla}>
+            Disclamier: We are 100% sure about the accurate result, but we provide our best accurate!
+          </p>
         </>
       )}
     </StyledHome>
