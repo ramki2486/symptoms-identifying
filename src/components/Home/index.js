@@ -40,7 +40,7 @@ const Home = ({ history }) => {
         history.push('/user/dashboard');
       }, 1000);
     } else if (ele === 'no') {
-      setTimeout(() => setLoading(true), 1000);
+      setTimeout(() => setLoading(true), 2000);
       setTimeout(() => {
         localStorage.setItem('logout', 'true');
         setLoading(false);
@@ -79,9 +79,12 @@ const Home = ({ history }) => {
                   <>
                     <h4 className={styles.med}>{ele}</h4>
                     {message.length > 0 && !WrongMessage ? (
-                      <h4 className={styles.med}>Sorry. I couldn't get You.</h4>
+                      <>
+                        <h4 className={styles.med}>Sorry. I couldn't get You.</h4>
+                        <h4 className={styles.med}>Oh! Do you want me take to Disease prediction Dashboard?</h4>
+                      </>
                     ) : (
-                      <h4 className={styles.med}>Oh! Do you need medication?</h4>
+                      <h4 className={styles.med}>Do you need medication?</h4>
                     )}
                   </>
                 ))}
@@ -117,7 +120,7 @@ const Home = ({ history }) => {
           </div>
           {!activeLink ? <Login handlelogin={handlelogin} /> : <Register />}
           <p className={styles.discla}>
-            Disclamier: We are 100% sure about the accurate result, but we provide our best accurate!
+            Disclamier: We are not 100% sure about the accurate result, but we provide our best accurate!
           </p>
         </>
       )}

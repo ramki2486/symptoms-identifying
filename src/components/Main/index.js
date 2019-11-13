@@ -20,11 +20,13 @@ class Main extends React.Component {
   handleSave = disease => () => {
     const { isSubmit } = this.state;
     if (isSubmit) {
-      this.setState({ diseases: [], isSubmit: false, response: {} });
+      return this.setState({ diseases: [disease], isSubmit: false, response: false, resStat: null });
     }
     this.setState(prevState => ({
       diseases: [...prevState.diseases, disease],
       searchResults: [],
+      response: false,
+      resStat: null,
     }));
   };
 
@@ -33,7 +35,7 @@ class Main extends React.Component {
     this.setState({
       diseases: diseases.filter(el => el !== ele),
       resStat: null,
-      response: {}
+      response: false,
     });
   };
 
@@ -77,9 +79,17 @@ class Main extends React.Component {
   };
 
   hanldeClick = param => () => {
-    this.setState({
-      resStat: param,
-    });
+    this.setState(
+      {
+        resStat: param,
+      },
+      () => {
+        if (param === 'yes') {
+          this.setState({ overlay: true });
+          setTimeout(() => this.setState({ overlay: false }), 2000);
+        }
+      }
+    );
   };
 
   // shuffle = (array, type) => {
@@ -90,7 +100,7 @@ class Main extends React.Component {
   // };
 
   render() {
-    const { diseases, query, searchResults, response, loading, errMessage, resStat } = this.state;
+    const { diseases, query, searchResults, response, loading, errMessage, resStat, overlay } = this.state;
 
     const halfSymptoms = [...symptoms];
     const nextHalfSymptoms = [...symptoms];
@@ -133,7 +143,13 @@ class Main extends React.Component {
                 <span>Remedie:</span> {response.remedy}
               </p>
               {resStat === 'yes' ? (
-                <h4 className={styles.good}>Thank You.</h4>
+                <>
+                  {overlay && (
+                    <div className={styles.overlay}>
+                      <div className={styles.overlayText}>Thank You</div>
+                    </div>
+                  )}
+                </>
               ) : resStat === 'no' ? (
                 <h4 className={styles.bad}>"Okay. Will improve our results.Thank you"</h4>
               ) : (
